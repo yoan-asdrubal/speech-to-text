@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --configuration production --base-href 'https://yoan-asdrubal.github.io/speech-to-text/' && npx gh-pages -d dist/speech-app"
+    "deploy": "ng build --configuration production --base-href /speech-to-text/ && npx gh-pages -d dist/speech-app/browser"
   },
   "prettier": {
     "printWidth": 100,

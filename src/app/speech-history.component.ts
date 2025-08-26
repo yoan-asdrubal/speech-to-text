@@ -75,7 +75,7 @@ import { SpeechHistoryService } from './speech-history.service';
           <ul>
             <li>Permite el acceso al micrófono cuando se solicite</li>
             <li>Haz clic en "Iniciar" y comienza a hablar</li>
-            <li>La transcripción se detiene automáticamente tras 2 segundos de silencio</li>
+            <li>La transcripción se detiene automáticamente tras 5 segundos de silencio</li>
             <li>Di "stop" o usa el botón "Detener" para finalizar manualmente</li>
             <li>El texto se copia automáticamente al clipboard al detener</li>
           </ul>

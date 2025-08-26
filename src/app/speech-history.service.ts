@@ -30,6 +30,13 @@ export class SpeechHistoryService {
     }
     
     console.log('Starting native speech recognition');
+    
+    // Si hay texto actual, moverlo al historial antes de empezar nueva transcripción
+    const currentFinalText = this.currentText().split('|')[0] || '';
+    if (currentFinalText.trim()) {
+      this.addToHistory(currentFinalText.trim(), 1);
+    }
+    
     this.isListening.set(true);
     this.currentText.set('');
     this.error.set('');
@@ -73,7 +80,7 @@ export class SpeechHistoryService {
           
           // Check for stop word
           if (transcript.toLowerCase().includes('stop')) {
-            console.log('Stop word detected, stopping recognition');
+            console.log('Stop word detected:', transcript, '- stopping recognition');
             this.stop();
             return;
           }
@@ -130,24 +137,23 @@ export class SpeechHistoryService {
       this.recognition = null;
     }
     
-    // Consolidar transcripción actual al historial
+    // Solo copiar al clipboard, NO agregar al historial
     const finalText = this.currentText().split('|')[0] || '';
     if (finalText.trim()) {
-      this.addToHistory(finalText.trim(), 1);
       this.copyToClipboard();
     }
     
-    this.currentText.set('');
+    // NO limpiar currentText para mantenerlo visible
   }
   
   private resetSilenceTimer() {
     this.clearSilenceTimer();
     this.silenceTimer = setTimeout(() => {
-      if (this.isListening() && Date.now() - this.lastSpeechTime >= 2000) {
-        console.log('2 seconds of silence detected, stopping recognition');
+      if (this.isListening() && Date.now() - this.lastSpeechTime >= 5000) {
+        console.log('5 seconds of silence detected, stopping recognition');
         this.stop();
       }
-    }, 2000);
+    }, 5000);
   }
   
   private clearSilenceTimer() {
